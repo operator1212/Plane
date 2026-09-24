@@ -153,6 +153,24 @@ figcaption b{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spa
 .atp .deg small{font-family:var(--mono);font-stretch:100%;font-weight:400;font-size:11px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-left:8px}
 .atp p{font-size:14px;color:var(--ink2)}
 
+/* risk review */
+.review{display:grid;gap:18px;margin-top:18px;border-top:2px solid var(--ink);padding-top:22px}
+.rv-head{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;align-items:baseline}
+.rv-head .no{font-family:var(--mono);font-size:13px;color:var(--accent)}
+.rv-head p{margin-top:8px;color:var(--ink2);max-width:72ch}
+.rv-head strong{color:var(--ink);font-weight:600}
+.risks{display:grid;gap:0}
+.risk{display:grid;grid-template-columns:minmax(0,240px) minmax(0,1fr);gap:10px 36px;padding:18px 0;border-bottom:1px solid var(--rule2)}
+@media (max-width:760px){.risk{grid-template-columns:minmax(0,1fr)}}
+.risk .rk{display:grid;gap:8px;align-content:start}
+.risk h4{margin:0;font-family:var(--display);font-stretch:108%;font-size:16.5px;font-weight:620;line-height:1.3;text-wrap:balance}
+.risk .rt{display:grid;gap:10px;color:var(--ink2);font-size:15px;max-width:74ch}
+.risk .resp{padding-left:14px;border-left:2px solid var(--accent);color:var(--ink)}
+.risk .resp b{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-right:6px}
+.v{justify-self:start;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:2px;border:1px solid}
+.v.valid{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+.v.partly{color:var(--blue);border-color:var(--blue)}
+
 /* callout plate */
 .callouts{position:relative}
 .callouts .pin{position:absolute;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:50%;background:rgba(10,11,13,.72);border:1.3px solid #d3a263;color:#f1e3cc;font-family:var(--mono);font-size:10.5px;display:grid;place-items:center;pointer-events:none}
@@ -214,7 +232,7 @@ footer .in{max-width:1440px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px 3
 
 <header class="docbar"><div class="in">
   <span><b>Northfell Aerosystems</b> · Advanced Concepts Group</span>
-  <span>NFA-CD-0917 · Rev C · Configuration C-4</span>
+  <span>NFA-CD-0917 · Rev D · Configuration C-4</span>
   <span class="rel">Unclassified · Public concept release</span>
 </div></header>
 
@@ -327,7 +345,7 @@ footer .in{max-width:1440px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px 3
   <div class="two">
     <div class="prose">
       <p class="lead" style="color:var(--ink)">A tailless aircraft is quiet and efficient but short of directional stability, and the shortfall grows with Mach number. Serac solves this by moving part of the wing.</p>
-      <p>The outer panel of each wing rotates downward about a streamwise hinge. The panels are driven together for stability and trim, and differentially for yaw. A split drag rudder on each panel trailing edge gives yaw authority at low speed, when deflecting the panels would cost too much lift.</p>
+      <p>The outer panel of each wing rotates downward about a streamwise hinge. Both panels are driven by one interconnected shaft, so they always sit at the same angle. Yaw control comes from a split drag rudder on each panel trailing edge and from differential elevon drag, not from moving the panels against each other.</p>
       <p>Folding wingtips at supersonic speed were demonstrated on a large bomber prototype in the 1960s, where the drooped tips also added compression lift under the wing. Serac applies the principle to a much smaller aircraft, and uses modern actuation to make the panels a primary flight control rather than a two-position configuration change.</p>
       <p>The hinge line is the most difficult signature detail on the airframe. It is covered by a flexible conductive fairing and aligned with the airflow so that it presents a single streamwise edge when the panels are flat.</p>
     </div>
@@ -337,9 +355,54 @@ footer .in{max-width:1440px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px 3
     </figure>
   </div>
   <div class="atp">
-    <div class="card"><div class="deg">0°<small>Flat</small></div><!--svg:atp0--><p>Subsonic cruise and loiter. Full span, lowest induced drag, and the cleanest edge alignment.</p></div>
+    <div class="card"><div class="deg">0°<small>Flat</small></div><!--svg:atp0--><p>Subsonic cruise and loiter. Full span, lowest induced drag, and the cleanest edge alignment. Required in defended airspace.</p></div>
     <div class="card"><div class="deg">≈ 30°<small>Transonic</small></div><!--svg:atp30--><p>Acceleration through the transonic region. Restores directional stability as the aerodynamic centre moves aft.</p></div>
-    <div class="card"><div class="deg">≈ 65°<small>Supersonic</small></div><!--svg:atp65--><p>Sustained supersonic cruise. The panels act as fins and reduce trim drag. Span drops to about 12.8 m.</p></div>
+    <div class="card"><div class="deg">≈ 65°<small>Supersonic</small></div><!--svg:atp65--><p>Supersonic transit. The panels act as fins and reduce trim drag. Span drops to about 12.8 m and side-aspect signature rises.</p></div>
+  </div>
+
+  <div class="review">
+    <div class="rv-head">
+      <span class="no">4.1</span>
+      <div><h3>Known penalties and the design response</h3>
+      <p>The tip panels were put through an internal red-team review before Revision D. Five objections were raised. Each is recorded below with the reviewers' verdict and what changed. <strong>Outcome: the concept stands, with two design changes and one operating limit.</strong></p></div>
+    </div>
+    <div class="risks">
+      <div class="risk">
+        <div class="rk"><span class="v valid">Valid</span><h4>Weight at the tips</h4></div>
+        <div class="rt">
+          <p>Hinge fittings, actuators and locks are weight that a fixed wing does not carry. Two things change the picture. The panels replace the vertical tails, so the fair comparison is two fins with their own actuators, not a plain wing. And mass near the tip reduces wing-root bending in flight because it acts against lift; the cost appears in ground and landing loads. The real penalty is aeroelastic: mass at the tip lowers the speed at which the wing can flutter.</p>
+          <p class="resp"><b>Changed.</b> The drive motors now sit inboard of the hinge, in the thick part of the wing, and turn the panel through a geared hinge line. Only the fittings and the thermoplastic panel stay outboard. Little fuel is lost because the outer wing is too thin to hold much. Flutter clearance, flat and folded, is a programme gate.</p>
+        </div>
+      </div>
+      <div class="risk">
+        <div class="rk"><span class="v valid">Valid</span><h4>Signature at the hinge and when folded</h4></div>
+        <div class="rt">
+          <p>With the panels flat, the hinge is the weakest seam on the upper surface. With the panels folded, each panel and the lower wing surface form a dihedral that raises returns from the side. At 65° the included angle is about 115°, which avoids the strong return of a right angle, and the fold schedule never holds at 90°. The side signature still goes up.</p>
+          <p class="resp"><b>Operating limit.</b> Folded panels are for supersonic transit and escape, where shock heating and the exhaust plume already make the aircraft easier to detect. In defended airspace the panels stay flat and the aircraft flies subsonic or low supersonic. The signature budget is now tracked separately for the two states.</p>
+        </div>
+      </div>
+      <div class="risk">
+        <div class="rk"><span class="v valid">Valid</span><h4>Flight control complexity and asymmetric failure</h4></div>
+        <div class="rt">
+          <p>The control laws must blend continuously across the fold range. This is demanding but similar in kind to variable-sweep aircraft. The serious case is asymmetry. Revision C allowed the panels to move differentially for yaw, which made a split between the two sides a normal operating mode.</p>
+          <p class="resp"><b>Changed.</b> One interconnected shaft through the centre body now drives both panels, so they cannot reach different angles unless the shaft itself fails. Power-off brakes hold both panels where they are if the drive loses power. Yaw comes from the split drag rudders and differential elevon drag, with differential engine thrust as a backup. A panel that separates entirely is treated like losing a fin on a conventional fighter: the panel and its fittings are designed as primary structure, and the folded-panel envelope is limited so that the remaining controls can hold the aircraft while it slows.</p>
+        </div>
+      </div>
+      <div class="risk">
+        <div class="rk"><span class="v partly">Partly valid</span><h4>Heating and vibration</h4></div>
+        <div class="rt">
+          <p>Heating at the hinge is modest. At the cruise speeds Serac is designed for, skin temperatures stay within the range of current composite structure, and the hinge sits far from the nose. Vibration is the larger concern. The hinge gap and the folded panels sit in unsteady flow, so fittings and actuators see high-cycle loads.</p>
+          <p class="resp"><b>Accepted.</b> Titanium hinge fittings, a sealed gap, and inspection intervals set by fatigue testing. Actuator heat is carried away by fuel lines already in the wing. Sustainment cost will be higher than for a fixed tip and is tracked as a programme risk.</p>
+        </div>
+      </div>
+      <div class="risk">
+        <div class="rk"><span class="v partly">Partly valid</span><h4>Loss of lifting area</h4></div>
+        <div class="rt">
+          <p>The panels are about 8 percent of the gross planform. Folded to 65°, the projected area falls by about 5 percent. The loss applies only in supersonic flight, where induced drag is a smaller share of total drag, and the folded panels add compression lift under the wing and reduce trim drag.</p>
+          <p class="resp"><b>Open item.</b> Whether the net effect on cruise fuel burn is a gain or a loss has to be measured in the wind tunnel. It is not assumed in the range estimate.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -611,6 +674,7 @@ footer .in{max-width:1440px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px 3
         <tr><td>A</td><td>2025-11</td><td>Initial concept summary, configuration C-3.</td></tr>
         <tr><td>B</td><td>2026-04</td><td>Articulating tip panels adopted; configuration C-4 baselined.</td></tr>
         <tr><td>C</td><td>2026-09</td><td>Inlet moved beneath the chine; exhaust troughs lengthened; cockpit and teaming sections added.</td></tr>
+        <tr><td>D</td><td>2026-09</td><td>Tip panel risk review. Panels now share one interconnected drive with power-off brakes; drive motors moved inboard of the hinge; yaw no longer uses differential panel movement; panels held flat in defended airspace.</td></tr>
       </tbody>
     </table>
   </div>
@@ -620,7 +684,7 @@ footer .in{max-width:1440px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px 3
 </main>
 </div>
 
-<footer><div class="in"><span>NFA-CD-0917 · Rev C</span><span>NF-9 Serac · Concept design summary</span><span>Unclassified · Public concept release</span></div></footer>
+<footer><div class="in"><span>NFA-CD-0917 · Rev D</span><span>NF-9 Serac · Concept design summary</span><span>Unclassified · Public concept release</span></div></footer>
 
 <script>
 (function(){
