@@ -1,0 +1,633 @@
+<title>NF-9 Serac</title>
+<meta name="description" content="Concept design summary for the NF-9 Serac, an original long-range air dominance fighter concept.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+:root{
+  --bg:#eceef0; --paper:#f6f7f8; --ink:#15181c; --ink2:#3b424a; --muted:#6a727c; --rule:#c8cdd2; --rule2:#dde1e5;
+  --accent:#95662c; --accent-soft:rgba(149,102,44,.12); --blue:#3f5f86;
+  --draw-fill:#e2e5e8; --draw-line:#7d8690; --glass:#b8955b; --tile:#cfc8bb; --aperture:#1b1d20; --lite:#8e9a6c;
+  --m-skin:#d7dbdf; --m-edge:#5b636c; --m-atp:#a9b6c4; --m-ctl:#bfc6cd; --m-ti:#b7aa98; --m-cmc:#d6b98c; --m-rad:#e9e2cf; --m-ito:#b8955b;
+  --display:"Archivo","Arial Narrow",Arial,sans-serif; --body:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --gutter:clamp(16px,4vw,48px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0e1012; --paper:#15181b; --ink:#e4e7ea; --ink2:#b9c0c7; --muted:#8a939c; --rule:#2c3136; --rule2:#22262a;
+  --accent:#d3a263; --accent-soft:rgba(211,162,99,.13); --blue:#8fb0d6;
+  --draw-fill:#1d2125; --draw-line:#6c757e; --glass:#8d7143; --tile:#5d574d; --aperture:#050607; --lite:#9fac7a;
+  --m-skin:#2a2f34; --m-edge:#8d98a3; --m-atp:#4b5a6b; --m-ctl:#3b434b; --m-ti:#665d51; --m-cmc:#8a6f45; --m-rad:#5f5a4b; --m-ito:#8d7143;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0e1012; --paper:#15181b; --ink:#e4e7ea; --ink2:#b9c0c7; --muted:#8a939c; --rule:#2c3136; --rule2:#22262a;
+  --accent:#d3a263; --accent-soft:rgba(211,162,99,.13); --blue:#8fb0d6;
+  --draw-fill:#1d2125; --draw-line:#6c757e; --glass:#8d7143; --tile:#5d574d; --aperture:#050607; --lite:#9fac7a;
+  --m-skin:#2a2f34; --m-edge:#8d98a3; --m-atp:#4b5a6b; --m-ctl:#3b434b; --m-ti:#665d51; --m-cmc:#8a6f45; --m-rad:#5f5a4b; --m-ito:#8d7143;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16.5px;line-height:1.62;margin:0;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+img{max-width:100%;height:auto;display:block}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
+p{margin:0}
+
+/* document control strip */
+.docbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule);font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.docbar .in{display:flex;gap:12px 28px;flex-wrap:wrap;justify-content:space-between;padding-block:9px;padding-inline:var(--gutter);max-width:1440px;margin:0 auto}
+.docbar b{color:var(--ink);font-weight:500}
+.docbar .rel{color:var(--accent)}
+
+/* cover */
+.cover{position:relative;background:#0b0c0e;color:#e9ecef;overflow:hidden}
+.cover img{width:100%;height:auto;aspect-ratio:1800/1013;object-fit:cover}
+.cover .cap{position:absolute;inset:auto 0 0 0;padding-inline:var(--gutter);padding-block:0 clamp(18px,4vw,52px);background:linear-gradient(to top,rgba(8,9,11,.78),rgba(8,9,11,0));}
+.cover .cap .in{max-width:1440px;margin:0 auto;display:grid;gap:10px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+.cover .eyebrow{color:#c9a46e}
+.cover h1{font-size:clamp(54px,11vw,168px);font-weight:760;font-stretch:125%;letter-spacing:.06em;line-height:.9;margin-left:-.04em}
+.cover .sub{font-family:var(--display);font-stretch:100%;font-size:clamp(17px,2vw,24px);font-weight:400;color:#cfd4d9;max-width:44ch}
+.cover .plate{position:absolute;top:clamp(12px,2vw,24px);right:var(--gutter);font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:#8e969f;text-transform:uppercase;text-align:right;line-height:1.5}
+@media (max-width:640px){.cover img{aspect-ratio:4/3.4}.cover .plate{display:none}}
+
+/* layout */
+.wrap{max-width:1440px;margin:0 auto;padding-inline:var(--gutter);display:grid;grid-template-columns:200px minmax(0,1fr);gap:0 56px}
+.rail{position:sticky;top:64px;align-self:start;padding-block:56px 0}
+.rail ol{list-style:none;margin:0;padding:0;display:grid;gap:2px;font-size:13px}
+.rail a{display:grid;grid-template-columns:34px 1fr;text-decoration:none;color:var(--muted);padding:5px 0;border-top:1px solid transparent}
+.rail a span{font-family:var(--mono);font-size:11.5px;padding-top:1px}
+.rail a:hover{color:var(--ink)}
+.rail a.on{color:var(--ink)}
+.rail a.on span{color:var(--accent)}
+main{min-width:0;padding-block:24px 96px}
+@media (max-width:980px){.wrap{grid-template-columns:minmax(0,1fr)}.rail{display:none}}
+
+section.s{padding-block:64px 8px;border-top:1px solid var(--rule);display:grid;gap:28px}
+section.s:first-child{border-top:0}
+.sh{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;align-items:baseline}
+.sh .no{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.04em}
+.sh h2{font-size:clamp(26px,3.2vw,38px);font-weight:620;font-stretch:112%;letter-spacing:.005em;line-height:1.1}
+.sh .kick{grid-column:2;font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.lead{font-size:clamp(18px,1.6vw,21px);line-height:1.5;color:var(--ink);max-width:62ch;font-weight:400}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:28px 40px}
+.prose{display:grid;gap:14px;max-width:66ch;color:var(--ink2)}
+.prose strong{color:var(--ink);font-weight:600}
+h3{font-size:15px;font-weight:650;font-stretch:108%;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.two{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:28px 48px;align-items:start}
+@media (max-width:860px){.two{grid-template-columns:minmax(0,1fr)}}
+
+/* figures */
+figure{margin:0;display:grid;gap:10px}
+figcaption{font-size:13px;line-height:1.5;color:var(--muted);max-width:80ch}
+figcaption b{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.08em;color:var(--ink);margin-right:8px;text-transform:uppercase}
+.plate-img{background:#0b0c0e;border-radius:2px;overflow:hidden}
+.sheet{background:var(--paper);border:1px solid var(--rule2);padding:clamp(12px,2.5vw,28px);overflow-x:auto}
+.sheet svg{display:block;width:100%;height:auto}
+.sheet.wide > svg{min-width:560px}
+.sheet .tb{display:flex;flex-wrap:wrap;gap:6px 22px;justify-content:space-between;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--rule2);margin-top:14px;padding-top:10px}
+.viewlbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.ga-lower{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px 28px;align-items:end;margin-top:22px}
+@media (max-width:760px){.ga-lower{grid-template-columns:minmax(0,1fr)}}
+.ga-lower svg{min-width:0}
+
+/* svg drawing classes */
+.body{fill:var(--draw-fill)}
+.ol{fill:none;stroke:var(--ink);stroke-width:1.25;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.olm{fill:none;stroke:var(--ink2);stroke-width:1;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.pl{fill:none;stroke:var(--draw-line);stroke-width:.55;vector-effect:non-scaling-stroke}
+.hid{fill:none;stroke:var(--muted);stroke-width:.7;stroke-dasharray:4 3;vector-effect:non-scaling-stroke;opacity:.8}
+.ctr{fill:none;stroke:var(--muted);stroke-width:.6;stroke-dasharray:12 3 2 3;vector-effect:non-scaling-stroke;opacity:.7}
+.glass{fill:var(--glass);stroke:var(--ink);stroke-width:.7;vector-effect:non-scaling-stroke}
+.trough{fill:var(--tile);stroke:var(--draw-line);stroke-width:.6;vector-effect:non-scaling-stroke}
+.win{fill:var(--ink)} .dark{fill:var(--aperture)}
+.lite{fill:none;stroke:var(--lite);stroke-width:2;vector-effect:non-scaling-stroke}
+.dim,.ext{fill:none;stroke:var(--accent);stroke-width:.7;vector-effect:non-scaling-stroke}
+.ext{opacity:.55}
+.dimt{font-family:var(--mono);font-size:.46px;fill:var(--accent);letter-spacing:.02em}
+.hinge{fill:var(--accent)} .arc{fill:none;stroke:var(--accent);stroke-width:1.1;vector-effect:non-scaling-stroke}
+.ghostA,.ghostB{fill:none;stroke-width:.6;vector-effect:non-scaling-stroke;opacity:.35}
+.ghostA{stroke:var(--accent)} .ghostB{stroke:var(--blue)}
+.famA,.famB,.famS{fill:none;stroke-width:3.2;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.famA{stroke:var(--accent)} .famB{stroke:var(--blue)} .famS{stroke:var(--muted);stroke-dasharray:5 3}
+.m-skin{fill:var(--m-skin)} .m-edge{fill:var(--m-edge)} .m-atp{fill:var(--m-atp)} .m-ctl{fill:var(--m-ctl);stroke:var(--paper);stroke-width:.6;vector-effect:non-scaling-stroke}
+.m-ti{fill:var(--m-ti)} .m-cmc{fill:var(--m-cmc)} .m-rad{fill:var(--m-rad)} .m-ito{fill:var(--m-ito)}
+.fan{fill:var(--accent-soft);stroke:var(--accent);stroke-width:.5;stroke-dasharray:3 3;vector-effect:non-scaling-stroke}
+.mk{fill:var(--paper);stroke:var(--accent);stroke-width:1.3;vector-effect:non-scaling-stroke}
+.mkt{font-family:var(--mono);font-size:.46px;fill:var(--ink);font-weight:500}
+
+/* data table */
+.spec{width:100%;border-collapse:collapse;font-size:14.5px}
+.spec th,.spec td{text-align:left;vertical-align:top;padding:9px 0;border-bottom:1px solid var(--rule2)}
+.spec th{font-family:var(--mono);font-weight:400;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);width:40%;padding-right:16px;padding-top:11px}
+.spec td{color:var(--ink);font-variant-numeric:tabular-nums}
+.note{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--muted);margin-top:10px}
+
+/* pillars */
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:0;border-top:2px solid var(--ink)}
+.pillar{padding:18px 22px 20px 0;display:grid;gap:8px;align-content:start}
+.pillar + .pillar{padding-left:22px;border-left:1px solid var(--rule)}
+@media (max-width:760px){.pillar + .pillar{border-left:0;padding-left:0;border-top:1px solid var(--rule)}}
+.pillar .k{font-family:var(--display);font-stretch:125%;font-weight:700;font-size:22px;letter-spacing:.08em;text-transform:uppercase}
+.pillar p{color:var(--ink2);font-size:15px}
+.pillar .ord{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase}
+
+/* legends */
+.legend{list-style:none;margin:0;padding:0;display:grid;gap:10px;font-size:14.5px;color:var(--ink2)}
+.legend li{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start}
+.legend .sw{width:28px;height:14px;margin-top:4px;border-radius:1px}
+.legend .ln{width:28px;height:0;border-top:3px solid;margin-top:10px}
+.legend b{color:var(--ink);font-weight:600}
+.legend .num{width:24px;height:24px;border-radius:50%;border:1.3px solid var(--accent);display:grid;place-items:center;font-family:var(--mono);font-size:11.5px;color:var(--ink);background:var(--paper)}
+
+/* ATP strip */
+.atp{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media (max-width:860px){.atp{grid-template-columns:minmax(0,1fr)}}
+.atp .card{background:var(--paper);border:1px solid var(--rule2);padding:16px 16px 18px;display:grid;gap:10px;align-content:start}
+.atp .card svg{width:100%;height:auto;display:block}
+.atp .deg{font-family:var(--display);font-stretch:125%;font-weight:700;font-size:28px;line-height:1}
+.atp .deg small{font-family:var(--mono);font-stretch:100%;font-weight:400;font-size:11px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-left:8px}
+.atp p{font-size:14px;color:var(--ink2)}
+
+/* callout plate */
+.callouts{position:relative}
+.callouts .pin{position:absolute;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:50%;background:rgba(10,11,13,.72);border:1.3px solid #d3a263;color:#f1e3cc;font-family:var(--mono);font-size:10.5px;display:grid;place-items:center;pointer-events:none}
+@media (max-width:640px){.callouts .pin{width:16px;height:16px;font-size:8.5px}}
+.keylist{columns:2 280px;column-gap:40px;list-style:none;margin:0;padding:0;font-size:14px;color:var(--ink2)}
+.keylist li{break-inside:avoid;display:grid;grid-template-columns:30px 1fr;gap:8px;padding:7px 0;border-bottom:1px solid var(--rule2)}
+.keylist span{font-family:var(--mono);font-size:11.5px;color:var(--accent);padding-top:2px}
+.keylist b{color:var(--ink);font-weight:600}
+
+/* cockpit display */
+.mfd{background:#07090a;border-radius:6px;padding:clamp(8px,1.4vw,16px);border:1px solid #23282d;overflow-x:auto}
+.mfd svg{display:block;width:100%;min-width:720px;height:auto}
+.principles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:20px 36px}
+.principles div{display:grid;gap:6px;align-content:start}
+.principles p{font-size:15px;color:var(--ink2)}
+
+/* lineage */
+.lineage{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid var(--rule)}
+@media (max-width:860px){.lineage{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.lineage .c{padding:16px 18px 18px 0;display:grid;gap:10px;align-content:start}
+.lineage .c + .c{padding-left:18px;border-left:1px solid var(--rule2)}
+@media (max-width:860px){.lineage .c:nth-child(3){border-left:0;padding-left:0}}
+.lineage svg{width:100%;height:auto;display:block}
+.lineage .tag{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.lineage .tag.sel{color:var(--accent)}
+.lineage h3{font-size:14px}
+.lineage p{font-size:13.5px;color:var(--ink2)}
+.lin-body{fill:var(--draw-fill);stroke:var(--ink2);stroke-width:1.1;vector-effect:non-scaling-stroke}
+.lin-sel{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.4;vector-effect:non-scaling-stroke}
+.lin-fin{fill:none;stroke:var(--ink2);stroke-width:2.2;vector-effect:non-scaling-stroke}
+.lin-in{fill:var(--ink2)}
+
+/* flow diagram */
+.flow text{font-family:var(--mono);font-size:11px;fill:var(--ink2);letter-spacing:.04em}
+.flow .t2{font-family:var(--body);font-size:12.5px;fill:var(--ink)}
+.flow .bx{fill:var(--paper);stroke:var(--ink2);stroke-width:1}
+.flow .bx2{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1}
+.flow .ar{fill:none;stroke:var(--ink2);stroke-width:1.2}
+.flow .ar2{fill:none;stroke:var(--accent);stroke-width:1.2;stroke-dasharray:4 3}
+
+/* teaming */
+.team text{font-family:var(--mono);font-size:11px;fill:var(--ink2);letter-spacing:.05em}
+.team .h{font-family:var(--body);font-size:13px;fill:var(--ink);font-weight:600;letter-spacing:0}
+.team .lead-ac{fill:var(--ink)}
+.team .cca{fill:var(--ink2)}
+.team .link{stroke:var(--accent);stroke-width:1.1;stroke-dasharray:5 4;fill:none}
+.team .ring{fill:none;stroke:var(--rule);stroke-width:1}
+.team .sector{fill:var(--accent-soft);stroke:none}
+
+/* doc control */
+.ctl{width:100%;border-collapse:collapse;font-size:13.5px}
+.ctl th,.ctl td{padding:9px 14px 9px 0;border-bottom:1px solid var(--rule2);text-align:left;vertical-align:top}
+.ctl th{font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.ctl td:first-child{font-family:var(--mono);white-space:nowrap}
+.tablewrap{overflow-x:auto}
+footer{border-top:1px solid var(--rule);padding-block:28px 40px;padding-inline:var(--gutter);font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--muted)}
+footer .in{max-width:1440px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px 30px;justify-content:space-between}
+</style>
+
+<header class="docbar"><div class="in">
+  <span><b>Northfell Aerosystems</b> · Advanced Concepts Group</span>
+  <span>NFA-CD-0917 · Rev C · Configuration C-4</span>
+  <span class="rel">Unclassified · Public concept release</span>
+</div></header>
+
+<section class="cover" aria-label="Cover">
+  <img src="img/hero.jpg" alt="Render of the NF-9 Serac from above the port bow: a grey tailless diamond-planform fighter with a long chined nose, a bronze-tinted canopy and a broad, flat wing." width="1800" height="1013">
+  <div class="plate">Plate 01 · Studio reference<br>Tip panels flat · Low-signature cruise</div>
+  <div class="cap"><div class="in">
+    <div class="eyebrow">Concept Design Summary · NF-9</div>
+    <h1>SERAC</h1>
+    <p class="sub">A single-seat, long-range air dominance aircraft that commands its own uncrewed escorts.</p>
+  </div></div>
+</section>
+
+<div class="wrap">
+  <nav class="rail" aria-label="Sections"><ol>
+    <li><a href="#summary"><span>1.0</span>Summary</a></li>
+    <li><a href="#language"><span>2.0</span>Design language</a></li>
+    <li><a href="#ga"><span>3.0</span>General arrangement</a></li>
+    <li><a href="#atp"><span>4.0</span>Tip panels</a></li>
+    <li><a href="#signature"><span>5.0</span>Signature</a></li>
+    <li><a href="#propulsion"><span>6.0</span>Propulsion &amp; heat</a></li>
+    <li><a href="#materials"><span>7.0</span>Structure &amp; finish</a></li>
+    <li><a href="#sensors"><span>8.0</span>Sensors</a></li>
+    <li><a href="#cockpit"><span>9.0</span>Cockpit</a></li>
+    <li><a href="#quorum"><span>10.0</span>Teaming</a></li>
+    <li><a href="#detail"><span>11.0</span>Surface study</a></li>
+    <li><a href="#lineage"><span>12.0</span>Lineage</a></li>
+    <li><a href="#control"><span>13.0</span>Document control</a></li>
+  </ol></nav>
+
+<main>
+
+<section class="s" id="summary">
+  <div class="sh"><span class="no">1.0</span><h2>Summary</h2><span class="kick">Programme intent</span></div>
+  <p class="lead">Serac is a tailless, twin-engine fighter built to hold air superiority across ocean-scale distances and to lead a small group of uncrewed aircraft while it does. The configuration was ranked by three requirements in a fixed order: range, then signature, then agility. Most of what makes the aircraft look the way it does follows from that ranking.</p>
+  <div class="pillars">
+    <div class="pillar"><span class="ord">Priority 1</span><span class="k">Reach</span><p>A large, deep planform carries fuel in the wing and centre body. Adaptive-cycle engines trade thrust for economy in cruise. The aircraft is sized to fight at the far end of its radius without a tanker.</p></div>
+    <div class="pillar"><span class="ord">Priority 2</span><span class="k">Quiet</span><p>Every planform edge falls on two angles. Inlets sit under the chine, exhausts run into shielded troughs, and nothing is carried outside the skin. The aircraft emits by choice, never by default.</p></div>
+    <div class="pillar"><span class="ord">Priority 3</span><span class="k">Command</span><p>The cockpit is designed for directing teammates rather than flying waypoints. One pilot sets intent for up to four uncrewed aircraft and approves what they propose.</p></div>
+  </div>
+  <div class="two">
+    <div class="prose">
+      <h3>What is new here</h3>
+      <p><strong>Articulating tip panels.</strong> The outer 1.7&nbsp;m of each wing folds down about a streamwise hinge. Flat, the panels give span and a clean signature for subsonic cruise. Folded, they act as vertical surfaces and give the tailless airframe the directional stability it needs at supersonic speed. Section&nbsp;4.0 covers the three positions.</p>
+      <p><strong>A single continuous edge.</strong> The chine that starts at the nose tip becomes the wing leading edge without a break. One line runs from the radome to the wingtip, and the rest of the design is organised around it.</p>
+      <p><strong>Shielded exhaust deck.</strong> Two-dimensional nozzles exit into ceramic-tiled troughs on the upper aft deck, so the hottest metal on the aircraft cannot be seen from below or from the side.</p>
+    </div>
+    <div>
+      <table class="spec">
+        <tbody>
+          <tr><th>Role</th><td>Long-range air dominance; crewed lead for collaborative aircraft</td></tr>
+          <tr><th>Crew</th><td>1</td></tr>
+          <tr><th>Configuration</th><td>Tailless cranked diamond, chined forebody, articulating tip panels</td></tr>
+          <tr><th>Length</th><td>≈ 20.5 m</td></tr>
+          <tr><th>Span</th><td>≈ 14.8 m panels flat · ≈ 12.8 m panels at 65°</td></tr>
+          <tr><th>Height on gear</th><td>≈ 3.5 m</td></tr>
+          <tr><th>Propulsion</th><td>2 × adaptive three-stream turbofans, 2-D nozzles</td></tr>
+          <tr><th>Cruise</th><td>Sustained supersonic cruise without reheat</td></tr>
+          <tr><th>Payload</th><td>Internal only in low-signature configuration</td></tr>
+        </tbody>
+      </table>
+      <p class="note">Figures are approximate and illustrate configuration class only.</p>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="language">
+  <div class="sh"><span class="no">2.0</span><h2>Design language</h2><span class="kick">Two angles, one edge</span></div>
+  <div class="two">
+    <div class="prose">
+      <p class="lead" style="color:var(--ink)">The shape is controlled by a very small number of rules. Each one exists for an engineering reason, and together they give the aircraft its visual identity.</p>
+      <p><strong>Two edge directions.</strong> Every major planform edge is swept at 50°, either forward or aft. The starboard leading edge is parallel to the port outer trailing edge and to the inner trailing edge of the notch, and the same holds in mirror image. Radar returns from edges are concentrated into a few narrow directions instead of spread across the sky. Streamwise edges are allowed in exactly two places: the wingtip chords and the tip-panel hinge.</p>
+      <p><strong>One edge from nose to tip.</strong> The forebody chine grows from the nose tip, turns once at the wing junction, and continues as the leading edge. There is no separate strake, no inlet lip interrupting the line from above, and no step at the canopy.</p>
+      <p><strong>Nothing hangs.</strong> Air data comes through flush ports. Antennas are conformal patches. Payload is internal. The only things that break the skin in flight are the canopy and the tip panels, and both are part of the outer mould line.</p>
+      <p><strong>Proportion follows function.</strong> The long forebody puts the cockpit well ahead of the inlets, which gives the pilot a clear view over the nose and leaves room for a large nose array. Most of the volume sits in a deep centre body and thick wing roots, where it serves as fuel.</p>
+    </div>
+    <figure>
+      <div class="sheet">
+        <!--svg:edges-->
+      </div>
+      <figcaption><b>Fig 2.1</b>Planform edge families. Every straight edge belongs to one of two parallel sets. The faint lines are the alignment grid used during shaping.</figcaption>
+      <ul class="legend" style="margin-top:6px">
+        <li><span class="ln" style="border-color:var(--accent)"></span><span><b>Family A</b> · aft-swept 50° to starboard</span></li>
+        <li><span class="ln" style="border-color:var(--blue)"></span><span><b>Family B</b> · aft-swept 50° to port</span></li>
+        <li><span class="ln" style="border-color:var(--muted);border-top-style:dashed"></span><span><b>Streamwise</b> · tip chords and panel hinge only</span></li>
+      </ul>
+    </figure>
+  </div>
+</section>
+
+<section class="s" id="ga">
+  <div class="sh"><span class="no">3.0</span><h2>General arrangement</h2><span class="kick">Configuration C-4 · reference surface</span></div>
+  <p class="prose" style="max-width:70ch">The drawings below are cut directly from the reference surface used for every render in this document. Dashed lines show the serpentine inlet ducts, the engine bays and the centreline payload bay.</p>
+  <figure>
+    <div class="sheet wide">
+      <div class="viewlbl">Plan view · upper surface</div>
+      <!--svg:plan-->
+      <div class="ga-lower">
+        <div><div class="viewlbl">Port side elevation · gear phantom</div><!--svg:side--></div>
+        <div><div class="viewlbl">Front elevation</div><!--svg:front--></div>
+      </div>
+      <div class="tb"><span>NF-9 · C-4 · General arrangement</span><span>Dimensions approximate</span><span>Sheet 1 of 1</span></div>
+    </div>
+    <figcaption><b>Fig 3.1</b>Three-view. The inlets sit below and behind the chine and are hidden in plan view. The exhaust troughs are tinted to show the tiled aft deck.</figcaption>
+  </figure>
+</section>
+
+<section class="s" id="atp">
+  <div class="sh"><span class="no">4.0</span><h2>Articulating tip panels</h2><span class="kick">The defining feature</span></div>
+  <div class="two">
+    <div class="prose">
+      <p class="lead" style="color:var(--ink)">A tailless aircraft is quiet and efficient but short of directional stability, and the shortfall grows with Mach number. Serac solves this by moving part of the wing.</p>
+      <p>The outer panel of each wing rotates downward about a streamwise hinge. The panels are driven together for stability and trim, and differentially for yaw. A split drag rudder on each panel trailing edge gives yaw authority at low speed, when deflecting the panels would cost too much lift.</p>
+      <p>Folding wingtips at supersonic speed were demonstrated on a large bomber prototype in the 1960s, where the drooped tips also added compression lift under the wing. Serac applies the principle to a much smaller aircraft, and uses modern actuation to make the panels a primary flight control rather than a two-position configuration change.</p>
+      <p>The hinge line is the most difficult signature detail on the airframe. It is covered by a flexible conductive fairing and aligned with the airflow so that it presents a single streamwise edge when the panels are flat.</p>
+    </div>
+    <figure>
+      <div class="plate-img"><img src="img/low.jpg" alt="Render from below at high altitude against a deep blue sky, showing the underside, the two inlets under the chine, and the port wingtip panel folded steeply downward." width="1800" height="1013" loading="lazy"></div>
+      <figcaption><b>Plate 02</b>Supersonic configuration. The port panel is folded to about 60°. Both inlet apertures are visible under the chine.</figcaption>
+    </figure>
+  </div>
+  <div class="atp">
+    <div class="card"><div class="deg">0°<small>Flat</small></div><!--svg:atp0--><p>Subsonic cruise and loiter. Full span, lowest induced drag, and the cleanest edge alignment.</p></div>
+    <div class="card"><div class="deg">≈ 30°<small>Transonic</small></div><!--svg:atp30--><p>Acceleration through the transonic region. Restores directional stability as the aerodynamic centre moves aft.</p></div>
+    <div class="card"><div class="deg">≈ 65°<small>Supersonic</small></div><!--svg:atp65--><p>Sustained supersonic cruise. The panels act as fins and reduce trim drag. Span drops to about 12.8 m.</p></div>
+  </div>
+</section>
+
+<section class="s" id="signature">
+  <div class="sh"><span class="no">5.0</span><h2>Signature philosophy</h2><span class="kick">Shape first, materials second</span></div>
+  <div class="two">
+    <figure>
+      <div class="plate-img"><img src="img/rear.jpg" alt="Render from above and behind, showing two engine humps ending in dark nozzle exits that open into tiled troughs on the upper aft deck, with the W-shaped trailing edge." width="1800" height="1013" loading="lazy"></div>
+      <figcaption><b>Plate 03</b>Aft deck. Each nozzle exits into a shallow tiled trough. The tile field shows heat tint near the exit and soot towards the trailing edge.</figcaption>
+    </figure>
+    <div class="prose">
+      <p>Most of the signature budget is spent on shape. Coatings and edge materials are used to finish the job, never to rescue a shape that reflects in the wrong direction.</p>
+      <p><strong>Inlets.</strong> The two inlets are ventrolateral, tucked under the chine and behind the wing junction. From above they are hidden entirely. From the side the chine overhangs the aperture. Each duct curves inboard and upward so the engine face is out of line of sight from any direction.</p>
+      <p><strong>Exhausts.</strong> Two-dimensional nozzles exit onto the upper aft deck. The trough floor extends a short distance behind each nozzle so that the exhaust plume and the hottest structure are screened from below and from the side. The trough is lined with ceramic matrix tiles that take the heat and can be replaced individually.</p>
+      <p><strong>Doors and joints.</strong> Every door edge is either serrated or aligned with one of the two edge families. The radome joint, the nozzle flap edges and the gear doors all use the same 50° teeth. Panels that are opened often use a seam treatment that does not have to be re-applied after each access.</p>
+      <p><strong>Emissions.</strong> The aircraft can fly a full mission without radiating. Passive sensors and teammate data build the picture, and the nose array transmits only when the pilot, or a rule the pilot has set, decides it should.</p>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="propulsion">
+  <div class="sh"><span class="no">6.0</span><h2>Propulsion &amp; heat</h2><span class="kick">The heat budget drives the design</span></div>
+  <div class="two">
+    <div class="prose">
+      <p>Serac uses two adaptive three-stream turbofans. In cruise the engines route more air around the core for economy. In combat they close that path down for thrust. The third stream is a cool, low-pressure flow that the aircraft uses as a heat sink.</p>
+      <p>A long-range aircraft with powerful sensors produces a lot of waste heat and has very little skin area through which to reject it without being seen. On Serac, heat was treated as a first-order design constraint alongside weight and drag. Fuel is the primary heat sink. The third stream absorbs what the fuel cannot, and the warmed air leaves through the vents beside each engine hump, where it mixes into the exhaust flow over the aft deck.</p>
+      <p>Electrical generation is sized for the sensor suite and for growth. The aircraft is designed with margin for power and cooling that later systems will need, because adding either after the airframe is built is very expensive.</p>
+    </div>
+    <figure>
+      <div class="sheet">
+        <svg class="flow" viewBox="0 0 560 300" role="img" aria-label="Conceptual flow of air and heat through the propulsion system">
+          <rect class="bx" x="12" y="118" width="92" height="56"/><text x="58" y="142" text-anchor="middle">INLET</text><text x="58" y="158" text-anchor="middle">SERPENTINE</text>
+          <path class="ar" d="M104 146 H136"/><path class="ar" d="M130 141 l6 5 -6 5"/>
+          <rect class="bx" x="136" y="118" width="80" height="56"/><text x="176" y="150" text-anchor="middle">FAN</text>
+          <path class="ar" d="M216 128 C240 128 240 44 264 44"/><path class="ar" d="M216 146 H264"/><path class="ar" d="M216 164 C240 164 240 246 264 246"/>
+          <rect class="bx2" x="264" y="20" width="136" height="48"/><text x="332" y="40" text-anchor="middle">THIRD STREAM</text><text class="t2" x="332" y="58" text-anchor="middle">heat sink air</text>
+          <rect class="bx" x="264" y="122" width="136" height="48"/><text x="332" y="142" text-anchor="middle">BYPASS</text><text class="t2" x="332" y="160" text-anchor="middle">varies with mode</text>
+          <rect class="bx" x="264" y="222" width="136" height="48"/><text x="332" y="242" text-anchor="middle">CORE</text><text class="t2" x="332" y="260" text-anchor="middle">power and thrust</text>
+          <path class="ar2" d="M400 44 H440"/><rect class="bx2" x="440" y="20" width="108" height="48"/><text x="494" y="40" text-anchor="middle">HEAT</text><text x="494" y="56" text-anchor="middle">EXCHANGERS</text>
+          <path class="ar" d="M400 146 H440"/><path class="ar" d="M400 246 C424 246 424 160 440 160"/>
+          <rect class="bx" x="440" y="122" width="108" height="48"/><text x="494" y="142" text-anchor="middle">2-D NOZZLE</text><text class="t2" x="494" y="160" text-anchor="middle">into trough</text>
+          <path class="ar2" d="M494 68 V122"/><text x="500" y="100">VENT MIX</text>
+          <path class="ar2" d="M494 206 V180"/><rect class="bx2" x="440" y="206" width="108" height="48"/><text x="494" y="226" text-anchor="middle">FUEL</text><text class="t2" x="494" y="244" text-anchor="middle">primary sink</text>
+          <path class="ar2" d="M440 230 H420 V70"/>
+        </svg>
+      </div>
+      <figcaption><b>Fig 6.1</b>Conceptual flow of air and heat. Solid lines carry thrust; dashed lines carry heat. Not to scale and not a design schematic.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="s" id="materials">
+  <div class="sh"><span class="no">7.0</span><h2>Structure, materials &amp; finish</h2><span class="kick">Fewer parts, fewer seams</span></div>
+  <div class="two">
+    <figure>
+      <div class="sheet"><!--svg:materials--></div>
+      <figcaption><b>Fig 7.1</b>Upper-surface material zones, conceptual.</figcaption>
+      <ul class="legend">
+        <li><span class="sw" style="background:var(--m-skin)"></span><span><b>Primary skins.</b> Large co-cured carbon composite panels with integral stiffening.</span></li>
+        <li><span class="sw" style="background:var(--m-edge)"></span><span><b>Edge treatments.</b> Replaceable leading and trailing edge sections with graded absorbing structure.</span></li>
+        <li><span class="sw" style="background:var(--m-atp)"></span><span><b>Tip panels.</b> Thermoplastic composite with embedded receive apertures.</span></li>
+        <li><span class="sw" style="background:var(--m-ctl)"></span><span><b>Control surfaces.</b> Elevons and split drag rudders.</span></li>
+        <li><span class="sw" style="background:var(--m-ti)"></span><span><b>Hot structure.</b> Titanium and high-temperature composite over the engine bays.</span></li>
+        <li><span class="sw" style="background:var(--m-cmc)"></span><span><b>Trough tiles.</b> Ceramic matrix composite, individually replaceable.</span></li>
+        <li><span class="sw" style="background:var(--m-rad)"></span><span><b>Radome.</b> Frequency-selective structure, serrated joint.</span></li>
+        <li><span class="sw" style="background:var(--m-ito)"></span><span><b>Canopy.</b> Single-piece transparency with a metallised coating.</span></li>
+      </ul>
+    </figure>
+    <div class="prose">
+      <p>The airframe is built from as few large pieces as possible. Each wing upper skin is a single co-cured panel from root to hinge. Fewer skins mean fewer joints, and fewer joints mean fewer places where the signature treatment can fail and fewer hours spent restoring it.</p>
+      <p>The low-observable finish is applied mostly as factory-made film rather than sprayed in the hangar. Film has consistent thickness and can be replaced in sections. Seams on panels opened every flight use a reusable conductive gasket rather than a filler that must be cured.</p>
+      <p>The paint is a cool graphite with a faint metallic sheen, chosen for high-altitude sky backgrounds. Low-visibility markings are printed in a darker tone of the same grey. Walkways, rescue markings and tail codes remain on the aircraft but only read at close range.</p>
+      <p>The canopy is a single transparency with one aft frame. Its metallised coating keeps radar energy out of the cockpit and gives the canopy a bronze cast in daylight.</p>
+      <figure style="margin-top:8px">
+        <div class="plate-img"><img src="img/canopy.jpg" alt="Close-up render of the bronze-tinted single-piece canopy, its seal band and the serrated radome joint on the nose." width="1800" height="1013" loading="lazy"></div>
+        <figcaption><b>Plate 04</b>Canopy and forebody. The serrated radome joint, a forward distributed-aperture window and a formation strip are visible.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="sensors">
+  <div class="sh"><span class="no">8.0</span><h2>Sensors &amp; apertures</h2><span class="kick">One picture from many windows</span></div>
+  <div class="two">
+    <figure>
+      <div class="sheet"><!--svg:apertures--></div>
+      <figcaption><b>Fig 8.1</b>Aperture locations projected onto the plan view. Shaded fans show the primary coverage of the nose and chine arrays.</figcaption>
+    </figure>
+    <div class="prose">
+      <p>Serac carries no single primary sensor. Radar, passive receivers, infrared and teammate data all feed one fused track picture, and the pilot works with tracks rather than with individual sensors.</p>
+      <ul class="legend">
+        <li><span class="num">1</span><span><b>Nose array.</b> Fixed, canted multifunction array behind the radome.</span></li>
+        <li><span class="num">2</span><span><b>Chine arrays.</b> Side-looking panels set into the lower chine flanks.</span></li>
+        <li><span class="num">3</span><span><b>Distributed aperture windows.</b> Six infrared windows giving spherical coverage to the helmet.</span></li>
+        <li><span class="num">4</span><span><b>Chin electro-optical sensor.</b> Faceted window for long-range passive tracking.</span></li>
+        <li><span class="num">5</span><span><b>Satellite communications.</b> Conformal patch on the spine.</span></li>
+        <li><span class="num">6</span><span><b>Teammate datalink.</b> Directional low-probability-of-intercept patches on each tip panel.</span></li>
+        <li><span class="num">7</span><span><b>Lower datalink and identification.</b></span></li>
+        <li><span class="num">8</span><span><b>Wideband receivers</b> in the tip panel leading edges.</span></li>
+        <li><span class="num">9</span><span><b>Rearward receivers</b> in the outer trailing edges.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="cockpit">
+  <div class="sh"><span class="no">9.0</span><h2>Cockpit &amp; interface</h2><span class="kick">Designed for intent, not input</span></div>
+  <p class="lead">One pilot flies the aircraft, fights it and directs four others. The interface is built on the assumption that the pilot's attention is the scarcest resource on board.</p>
+  <figure>
+    <div class="mfd">
+      <svg viewBox="0 0 1200 420" role="img" aria-label="Mock-up of the panoramic cockpit display with teammate status on the left, a tactical plan view in the centre and assistant proposals on the right">
+        <style>
+          .d{font-family:"IBM Plex Mono",ui-monospace,monospace;fill:#8fa39a;font-size:13px;letter-spacing:.04em}
+          .d.s{font-size:11px;fill:#5e6f68} .d.w{fill:#d9e4dc} .d.a{fill:#e2ae55} .d.c{fill:#79c7c0}
+          .g{fill:none;stroke:#2a3431;stroke-width:1} .gb{fill:none;stroke:#8fa39a;stroke-width:1.2}
+          .zone{fill:#0c1110;stroke:#1d2624;stroke-width:1}
+        </style>
+        <rect x="0" y="0" width="1200" height="420" rx="8" fill="#050707"/>
+        <rect class="zone" x="12" y="12" width="276" height="350"/><rect class="zone" x="300" y="12" width="600" height="350"/><rect class="zone" x="912" y="12" width="276" height="350"/>
+        <!-- left: teammates -->
+        <text class="d s" x="26" y="36">QUORUM · 4 OF 4 LINKED</text>
+        <g transform="translate(26,52)">
+          <rect class="g" width="248" height="68"/><text class="d w" x="10" y="22">Q1  FORWARD SENSE</text><text class="d s" x="10" y="42">EMITTING · SECTOR 040–080</text><rect x="10" y="52" width="170" height="5" fill="#79c7c0"/><rect x="180" y="52" width="58" height="5" fill="#26302d"/>
+          <g transform="translate(0,78)"><rect class="g" width="248" height="68"/><text class="d w" x="10" y="22">Q2  RELAY</text><text class="d s" x="10" y="42">PASSIVE · HOLDING NODE B</text><rect x="10" y="52" width="200" height="5" fill="#79c7c0"/><rect x="210" y="52" width="28" height="5" fill="#26302d"/></g>
+          <g transform="translate(0,156)"><rect fill="#1e1a10" stroke="#e2ae55" width="248" height="68"/><text class="d a" x="10" y="22">Q3  ELECTRONIC SUPPORT</text><text class="d a" x="10" y="42" style="font-size:11px">PROPOSES REPOSITION · SEE TALLY</text><rect x="10" y="52" width="120" height="5" fill="#e2ae55"/><rect x="130" y="52" width="108" height="5" fill="#2d2716"/></g>
+          <g transform="translate(0,234)"><rect class="g" width="248" height="68"/><text class="d w" x="10" y="22">Q4  RESERVE</text><text class="d s" x="10" y="42">PASSIVE · 12 KM AFT LEFT</text><rect x="10" y="52" width="226" height="5" fill="#79c7c0"/></g>
+        </g>
+        <!-- centre: tactical plan -->
+        <g transform="translate(600,330)">
+          <path class="g" d="M-280 0 A280 280 0 0 1 280 0"/><path class="g" d="M-190 0 A190 190 0 0 1 190 0"/><path class="g" d="M-100 0 A100 100 0 0 1 100 0"/>
+          <path class="g" d="M0 0 L0 -300"/><path class="g" d="M0 0 L-212 -212"/><path class="g" d="M0 0 L212 -212"/>
+          <path d="M-60 -250 A120 120 0 0 1 120 -210" fill="none" stroke="#e2ae55" stroke-width="1" stroke-dasharray="6 5"/>
+          <text class="d a" x="126" y="-212" style="font-size:11px">SAM ENVELOPE · EST.</text>
+          <path d="M0 -14 L9 8 L0 3 L-9 8 Z" fill="#d9e4dc"/>
+          <g fill="none" stroke="#79c7c0" stroke-width="1.4"><path d="M-70 -150 l7 -7 7 7 -7 7z"/><path d="M40 -175 l7 -7 7 7 -7 7z"/><path d="M-20 -95 l7 -7 7 7 -7 7z"/><path d="M-120 -40 l7 -7 7 7 -7 7z"/></g>
+          <text class="d c" x="-58" y="-150" style="font-size:11px">Q1</text><text class="d c" x="52" y="-175" style="font-size:11px">Q3</text><text class="d c" x="-8" y="-95" style="font-size:11px">Q2</text><text class="d c" x="-108" y="-40" style="font-size:11px">Q4</text>
+          <path class="g" d="M0 0 L-63 -150 M0 0 L47 -175 M0 0 L-13 -95" stroke-dasharray="2 4" stroke="#355" />
+          <g fill="none" stroke="#e05a4a" stroke-width="1.5"><path d="M-10 -262 h14 v14 h-14z"/><path d="M-3 -262 l-20 -26"/><path d="M92 -268 h14 v14 h-14z"/><path d="M99 -268 l-6 -30"/></g>
+          <text class="d" x="10" y="-266" style="font-size:11px;fill:#e05a4a">T1 HOSTILE</text><text class="d" x="112" y="-270" style="font-size:11px;fill:#e05a4a">T2 HOSTILE</text>
+          <g fill="none" stroke="#8fa39a" stroke-width="1.2"><path d="M-200 -190 h12 v12 h-12z"/></g><text class="d s" x="-236" y="-196">T5 UNK</text>
+          <text class="d s" x="-290" y="14">160</text><text class="d s" x="-200" y="14">110</text><text class="d s" x="-110" y="14">60 KM</text>
+        </g>
+        <text class="d s" x="316" y="36">TACTICAL · PLAN · FUSED</text><text class="d w" x="884" y="36" text-anchor="end">EMCON  QUIET</text>
+        <!-- right: Tally -->
+        <text class="d s" x="926" y="36">TALLY · PROPOSALS</text>
+        <g transform="translate(926,52)">
+          <rect fill="#1e1a10" stroke="#e2ae55" width="248" height="118"/>
+          <text class="d a" x="10" y="22">Q3 REPOSITION</text>
+          <text class="d w" x="10" y="44" style="font-size:12px">Move 18 km north to cover</text>
+          <text class="d w" x="10" y="62" style="font-size:12px">T5 bearing. Link margin OK.</text>
+          <rect x="10" y="80" width="108" height="26" fill="none" stroke="#e2ae55"/><text class="d a" x="64" y="98" text-anchor="middle">APPROVE</text>
+          <rect x="128" y="80" width="108" height="26" fill="none" stroke="#5e6f68"/><text class="d" x="182" y="98" text-anchor="middle">DEFER</text>
+          <g transform="translate(0,132)"><rect class="g" width="248" height="72"/><text class="d w" x="10" y="22">FUEL</text><text class="d" x="10" y="44" style="font-size:12px">Return window closes 41 min</text><text class="d s" x="10" y="62">TANKER NOT REQUIRED</text></g>
+          <g transform="translate(0,216)"><rect class="g" width="248" height="72"/><text class="d w" x="10" y="22">TIP PANELS  65°</text><text class="d" x="10" y="44" style="font-size:12px">M 1.6 · cruise schedule</text><text class="d s" x="10" y="62">AUTO</text></g>
+        </g>
+        <!-- bezel keys -->
+        <g transform="translate(0,374)">
+          <g fill="#101514" stroke="#2c3633"><rect x="40" width="120" height="34" rx="3"/><rect x="176" width="120" height="34" rx="3"/><rect x="312" width="120" height="34" rx="3"/><rect x="448" width="120" height="34" rx="3"/><rect x="632" width="120" height="34" rx="3"/><rect x="768" width="120" height="34" rx="3"/><rect x="904" width="120" height="34" rx="3"/><rect x="1040" width="120" height="34" rx="3"/></g>
+          <g class="d" text-anchor="middle" style="font-size:11.5px"><text x="100" y="22">DECLUTTER</text><text x="236" y="22">EMCON</text><text x="372" y="22">TEAM</text><text x="508" y="22">TRACKS</text><text x="692" y="22">SENSORS</text><text x="828" y="22">SYSTEMS</text><text x="964" y="22">NAV</text><text x="1100" y="22">COMMS</text></g>
+        </g>
+      </svg>
+    </div>
+    <figcaption><b>Fig 9.1</b>Panoramic display mock-up. Left: teammate status. Centre: fused plan view. Right: proposals from the cockpit assistant waiting for approval. Physical keys below the glass remain usable under high g and in turbulence.</figcaption>
+  </figure>
+  <div class="principles">
+    <div><h3>No head-up display</h3><p>The helmet is the primary flight reference and sees through the airframe using the distributed aperture windows. One wide display below the canopy rail carries everything else.</p></div>
+    <div><h3>Colour means something</h3><p>The display is monochrome by default. Amber is reserved for items that need a decision and red for threats and emergencies, so colour always signals a change.</p></div>
+    <div><h3>Touch where it is calm, keys where it is not</h3><p>Touch is used for planning and review. Anything a pilot might need under load has a physical key, a detent or a switch on the side-stick or throttle.</p></div>
+    <div><h3>Tally proposes, the pilot decides</h3><p>The cockpit assistant, Tally, watches fuel, systems and teammates and turns what it sees into short proposals. Nothing that changes a teammate's task, emits energy or releases a weapon happens without the pilot's approval.</p></div>
+  </div>
+</section>
+
+<section class="s" id="quorum">
+  <div class="sh"><span class="no">10.0</span><h2>Teaming: Quorum</h2><span class="kick">Crewed lead, uncrewed partners</span></div>
+  <div class="two">
+    <div class="prose">
+      <p>Serac is designed as the crewed lead of a group of up to four collaborative aircraft. The group is called a quorum. The name reflects the rule that governs it: the uncrewed aircraft plan and act among themselves within limits the pilot sets, and anything outside those limits comes back to the pilot for a decision.</p>
+      <p>A typical arrangement puts the uncrewed aircraft forward and to the flanks, where they take on the tasks that carry the most exposure. One senses actively, one relays, one gathers electronic signals and one waits in reserve. Serac stays behind and stays quiet, building its picture from what the others report.</p>
+      <p>The pilot assigns tasks by intent, such as "cover the northern sector" or "hold as relay", and the aircraft work out their own routes. When the datalink degrades, each aircraft falls back to the last intent it received and to a conservative default. It never escalates on its own.</p>
+    </div>
+    <figure>
+      <div class="sheet">
+        <svg class="team" viewBox="0 0 520 420" role="img" aria-label="Quorum formation: Serac at the rear centre with four uncrewed aircraft spread ahead of it">
+          <path class="sector" d="M260 360 L90 60 A340 340 0 0 1 430 60 Z" opacity=".6"/>
+          <path class="ring" d="M60 360 A200 200 0 0 1 460 360"/><path class="ring" d="M140 360 A120 120 0 0 1 380 360"/>
+          <path class="link" d="M260 350 L130 110"/><path class="link" d="M260 350 L390 120"/><path class="link" d="M260 350 L260 200"/><path class="link" d="M260 350 L120 300"/>
+          <g transform="translate(260,352) scale(2.1)"><path class="lead-ac" d="M0 -14 L3 -6 L3 -4 L14 6 L14 8 L6 6 L4 9 L0 7 L-4 9 L-6 6 L-14 8 L-14 6 L-3 -4 L-3 -6 Z"/></g>
+          <g class="cca"><path transform="translate(130,110)" d="M0 -9 L9 5 L4 4 L0 6 L-4 4 L-9 5 Z"/><path transform="translate(390,120)" d="M0 -9 L9 5 L4 4 L0 6 L-4 4 L-9 5 Z"/><path transform="translate(260,200)" d="M0 -9 L9 5 L4 4 L0 6 L-4 4 L-9 5 Z"/><path transform="translate(120,300)" d="M0 -9 L9 5 L4 4 L0 6 L-4 4 L-9 5 Z"/></g>
+          <text class="h" x="146" y="96">Q1</text><text x="146" y="80">FORWARD SENSE · ACTIVE</text>
+          <text class="h" x="352" y="106">Q3</text><text x="300" y="90">ELECTRONIC SUPPORT</text>
+          <text class="h" x="274" y="196">Q2</text><text x="274" y="180">RELAY</text>
+          <text class="h" x="60" y="328">Q4</text><text x="60" y="344">RESERVE</text>
+          <text class="h" x="290" y="392">NF-9 SERAC</text><text x="290" y="408">LEAD · PASSIVE</text>
+        </svg>
+      </div>
+      <figcaption><b>Fig 10.1</b>Representative quorum. The uncrewed aircraft take the exposed positions ahead; the crewed lead stays behind and silent.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="s" id="detail">
+  <div class="sh"><span class="no">11.0</span><h2>Surface study</h2><span class="kick">Plate 05 · Upper surface, orthographic</span></div>
+  <p class="prose" style="max-width:72ch">An aircraft in service carries hundreds of small features that follow the same rules as its overall shape. The plate below identifies the most visible ones on the upper surface.</p>
+  <figure>
+    <div class="plate-img callouts">
+      <img src="img/plan.jpg" alt="Orthographic render of the upper surface with the nose to the left, showing panel lines, chevron-shaped spine panels, diamond fuel access panels, vents and tiled exhaust troughs." width="2400" height="1800" loading="lazy">
+      <span class="pin" style="left:16.7%;top:46.8%">1</span>
+      <span class="pin" style="left:20.2%;top:45.3%">2</span>
+      <span class="pin" style="left:29.8%;top:43.9%">3</span>
+      <span class="pin" style="left:41.9%;top:50%">4</span>
+      <span class="pin" style="left:43.9%;top:39.8%">5</span>
+      <span class="pin" style="left:60.1%;top:50%">6</span>
+      <span class="pin" style="left:73.7%;top:38.1%">7</span>
+      <span class="pin" style="left:78.3%;top:43.9%">8</span>
+      <span class="pin" style="left:84.6%;top:56.1%">9</span>
+      <span class="pin" style="left:66.2%;top:16.7%">10</span>
+      <span class="pin" style="left:75.9%;top:11.7%">11</span>
+      <span class="pin" style="left:54.4%;top:33.3%">12</span>
+      <span class="pin" style="left:44.3%;top:62%">13</span>
+      <span class="pin" style="left:47.8%;top:73.4%">14</span>
+    </div>
+    <ul class="keylist">
+      <li><span>01</span><div><b>Radome joint.</b> Serrated, with teeth on the 50° edge families.</div></li>
+      <li><span>02</span><div><b>Distributed aperture window.</b> Faceted, one of six.</div></li>
+      <li><span>03</span><div><b>Formation strip.</b> Electroluminescent, low intensity.</div></li>
+      <li><span>04</span><div><b>Refuelling receptacle.</b> Chevron door with slipway markings forward of it.</div></li>
+      <li><span>05</span><div><b>Auxiliary intake doors.</b> Open at low speed and high power only.</div></li>
+      <li><span>06</span><div><b>Spine panels.</b> Chevron-shaped avionics access, quick-release fasteners.</div></li>
+      <li><span>07</span><div><b>Heat exchanger vent.</b> Grilled outlet with a faint streak aft.</div></li>
+      <li><span>08</span><div><b>Nozzle flap.</b> Serrated trailing edge over each nozzle exit.</div></li>
+      <li><span>09</span><div><b>Trough tiles.</b> Ceramic, heat-tinted near the exit.</div></li>
+      <li><span>10</span><div><b>Tip panel hinge.</b> Streamwise line with a flexible fairing.</div></li>
+      <li><span>11</span><div><b>Split drag rudder.</b> Opens symmetrically above and below the panel.</div></li>
+      <li><span>12</span><div><b>Fuel access panel.</b> Diamond outline aligned to both edge families.</div></li>
+      <li><span>13</span><div><b>Walkway.</b> Low-visibility outline and boot wear near the wing root.</div></li>
+      <li><span>14</span><div><b>Leading-edge treatment.</b> Replaceable section in a slightly darker tone.</div></li>
+    </ul>
+  </figure>
+</section>
+
+<section class="s" id="lineage">
+  <div class="sh"><span class="no">12.0</span><h2>Configuration lineage</h2><span class="kick">How C-4 was reached</span></div>
+  <div class="lineage">
+    <div class="c">
+      <svg viewBox="0 0 120 90" aria-label="C-1 planform"><path class="lin-body" d="M8 45 L40 40 L62 18 L82 18 L96 40 L110 42 L110 48 L96 50 L82 72 L62 72 L40 50 Z"/><path class="lin-fin" d="M92 34 L106 28 M92 56 L106 62"/></svg>
+      <span class="tag">C-1 · Discarded</span><h3>Tailed delta</h3><p>Twin canted fins gave good handling, but the fins dominated the side signature and added weight far from the centre of gravity.</p>
+    </div>
+    <div class="c">
+      <svg viewBox="0 0 120 90" aria-label="C-2 planform"><path class="lin-body" d="M8 45 L44 39 L78 8 L90 8 L84 30 L104 38 L112 45 L104 52 L84 60 L90 82 L78 82 L44 51 Z"/><rect class="lin-in" x="52" y="42" width="10" height="6"/></svg>
+      <span class="tag">C-2 · Discarded</span><h3>Lambda, dorsal inlet</h3><p>Very clean from below, but the dorsal inlet starved the engines at high angles of attack. Range was also short of the target.</p>
+    </div>
+    <div class="c">
+      <svg viewBox="0 0 120 90" aria-label="C-3 planform"><path class="lin-body" d="M8 45 L40 40 L76 12 L86 12 L102 28 L94 34 L112 45 L94 56 L102 62 L86 78 L76 78 L40 50 Z"/><path class="lin-fin" d="M76 12 L86 12 M76 78 L86 78"/></svg>
+      <span class="tag">C-3 · Discarded</span><h3>Diamond, fixed anhedral tips</h3><p>Permanently drooped tips fixed the stability problem but cost span and subsonic efficiency on every flight hour.</p>
+    </div>
+    <div class="c">
+      <svg viewBox="0 0 120 90" aria-label="C-4 planform"><path class="lin-sel" d="M6 45 L40 40 L74 9 L84 9 L102 30 L94 37 L114 45 L94 53 L102 60 L84 81 L74 81 L40 50 Z"/><path class="lin-fin" d="M68 15 L90 15 M68 75 L90 75" style="stroke:var(--accent);stroke-width:1.2;stroke-dasharray:3 2"/></svg>
+      <span class="tag sel">C-4 · Selected</span><h3>Diamond, articulating tips</h3><p>Keeps the full-span wing for cruise and the stability of fins when it matters. Inlets under the chine and troughs on the aft deck.</p>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="control">
+  <div class="sh"><span class="no">13.0</span><h2>Document control</h2><span class="kick">Revision history</span></div>
+  <div class="tablewrap">
+    <table class="ctl">
+      <thead><tr><th>Rev</th><th>Date</th><th>Change</th></tr></thead>
+      <tbody>
+        <tr><td>A</td><td>2025-11</td><td>Initial concept summary, configuration C-3.</td></tr>
+        <tr><td>B</td><td>2026-04</td><td>Articulating tip panels adopted; configuration C-4 baselined.</td></tr>
+        <tr><td>C</td><td>2026-09</td><td>Inlet moved beneath the chine; exhaust troughs lengthened; cockpit and teaming sections added.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note" style="max-width:90ch;line-height:1.7">Northfell Aerosystems, the NF-9 Serac and every name in this document are fictional and were invented for this design study. All imagery is rendered from the study's parametric reference surface. Performance statements are qualitative and illustrative. This document contains no engineering, manufacturing or weapons data.</p>
+</section>
+
+</main>
+</div>
+
+<footer><div class="in"><span>NFA-CD-0917 · Rev C</span><span>NF-9 Serac · Concept design summary</span><span>Unclassified · Public concept release</span></div></footer>
+
+<script>
+(function(){
+  var links=[].slice.call(document.querySelectorAll('.rail a'));
+  if(!('IntersectionObserver' in window)||!links.length) return;
+  var map={}; links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(l){l.classList.remove('on')});var a=map[e.target.id];if(a)a.classList.add('on');}});},{rootMargin:'-30% 0px -60% 0px'});
+  document.querySelectorAll('section.s').forEach(function(s){io.observe(s)});
+})();
+</script>
